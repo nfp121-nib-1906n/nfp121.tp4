@@ -9,7 +9,7 @@ import java.util.Observable;
 
 public class IHMCalculette extends JFrame {
     public IHMCalculette() {
-        super("IHM Calculette");
+        super("IHM Calculette"); 
         PileModele<Integer> modele = new PileModele<Integer>(new Pile2<Integer>(5));
         Controleur controle = new Controleur(modele);
         Vue vue = new Vue(modele);
