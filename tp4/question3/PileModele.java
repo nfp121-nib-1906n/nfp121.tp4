@@ -8,7 +8,7 @@ public class PileModele<T> extends  java.util.Observable implements PileI<T> {
 
     private PileI<T> pile;
 
-    /* à compléter */
+
 
     public PileModele(PileI<T> pile) {
         this.pile = pile;
