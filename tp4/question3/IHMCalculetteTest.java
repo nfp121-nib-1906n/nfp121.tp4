@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 import java.util.Random;
 
 
-import java.applet.*;
+import java.applet.*; 
 import java.beans.*;
 import java.net.*;
 import java.io.*;
