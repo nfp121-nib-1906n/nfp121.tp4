@@ -3,8 +3,8 @@ package question3;
 /**
  * Classe-test PileModeleTest.
  * 
- * @author (votre nom)
- * @version (un numéro de version ou une date)
+ * @author Maria Bou Aoun
+ * @version 2.0
  * 
  *          Les classes-test sont documentées ici :
  *          http://junit.sourceforge.net/javadoc/junit/framework/TestCase.html
@@ -24,11 +24,7 @@ package question3;
  *          engagements, et suivi d'un appel à tearDown(), qui les détruit.
  */
 public class PileModeleTest extends junit.framework.TestCase {
-	// Définissez ici les variables d'instance nécessaires à vos engagements;
-	// Vous pouvez également les saisir automatiquement du présentoir
-	// à l'aide du menu contextuel "Présentoir --> Engagements".
-	// Notez cependant que ce dernier ne peut saisir les objets primitifs
-	// du présentoir (les objets sans constructeur, comme int, float, etc.).
+	question3.tp3.PileI pile;
 
 	/**
 	 * Constructeur de la classe-test PileModeleTest
@@ -43,7 +39,7 @@ public class PileModeleTest extends junit.framework.TestCase {
 	 */
 	protected void setUp() // throws java.lang.Exception
 	{
-		// Initialisez ici vos engagements
+		pile = new question3.tp3.Pile2 (3);
 
 	}
 
@@ -56,13 +52,60 @@ public class PileModeleTest extends junit.framework.TestCase {
 	{
 		// Libérez ici les ressources engagées par setUp()
 	}
+       public void test_Pile_capacite() {
+        PileModele p = new PileModele(pile);
+        assertEquals(pile.capacite(), 3);
+    }
 
-	/**
-	 * Il ne vous reste plus qu'à définir une ou plusieurs méthodes de test. Ces
-	 * méthodes doivent vérifier les résultats attendus à l'aide d'assertions
-	 * assertTrue(<boolean>). Par convention, leurs noms devraient débuter par
-	 * "test". Vous pouvez ébaucher le corps grâce au menu contextuel
-	 * "Enregistrer une méthode de test".
-	 */
+    public void test_Pile_estVide() throws Exception {
+        PileModele p = new PileModele(pile);
+        assertEquals(true, p.estVide());
+        try {
+            Object r = p.depiler();
+            fail();
+        } catch (Exception e) {
+            assertTrue(e instanceof question3.tp3.PileVideException);
+        }
+    }
+	public void test_Pile_estPleine() throws Exception {
+        PileModele p = new PileModele(pile);
+        p.empiler(200);
+        assertEquals(1, p.taille());
+        p.empiler(206);
+        assertEquals(2, p.taille());
+        p.empiler(212);
+        assertEquals(3, p.taille());
+
+        assertEquals(true, p.estPleine());
+        assertEquals(p.taille(), p.capacite());
+        try {
+            p.empiler(0);
+            fail();
+        } catch (Exception e) {
+            assertTrue(e instanceof question3.tp3.PilePleineException);
+        }
+    }
+
+    public void test_Pile_sommet() throws Exception {
+        PileModele p = new PileModele(pile);
+        assertEquals(true, p.estVide());
+
+        p.empiler(new Integer(33));
+        assertEquals(" sommet ?? ", new Integer(33), p.sommet());
+        assertEquals(1, p.taille());
+        assertEquals(" depiler ?? ", new Integer(33), p.depiler());
+        assertEquals(0, p.taille());
+    }
+    
+    public void test_Pile_toString() throws Exception {
+        PileModele p = new PileModele(pile);
+        assertEquals("toString incorrect ? ", "[]", p.toString());
+        p.empiler(405);
+        assertEquals("toString incorrect ? ", "[405]", p.toString());
+        p.empiler(404);
+        assertEquals("toString incorrect ? ", "[404, 405]", p.toString());
+        p.empiler(403);
+        assertEquals("toString incorrect ? ", "[403, 404, 405]", p.toString());
+   }
 
 }
