@@ -4,7 +4,7 @@ package question3.tp3;
  * Décrivez votre classe PilePleineException ici.
  * 
  * @author Maria Bou Aoun
- * @version (un numéro de version ou une date)
+ * @version 2.0
  */
 public class PilePleineException extends Exception {
 
