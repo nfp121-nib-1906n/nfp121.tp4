@@ -11,8 +11,8 @@ import java.awt.event.*;
 /**
  * Décrivez votre classe Controleur ici.
  * 
- * @author (votre nom)
- * @version (un numéro de version ou une date)
+ * @author Maria Bou Aoun
+ * @version 2.0
  */
 public class Controleur extends JPanel {
 
@@ -37,28 +37,160 @@ public class Controleur extends JPanel {
         donnee.addActionListener(null /* null est à remplacer */);
         JPanel boutons = new JPanel();
         boutons.setLayout(new FlowLayout());
-        boutons.add(push);  push.addActionListener(null /* null est à remplacer */);
-        boutons.add(add);   add.addActionListener(null /* null est à remplacer */);
-        boutons.add(sub);   sub.addActionListener(null /* null est à remplacer */);
-        boutons.add(mul);   mul.addActionListener(null /* null est à remplacer */);
-        boutons.add(div);   div.addActionListener(null /* null est à remplacer */);
-        boutons.add(clear); clear.addActionListener(null /* null est à remplacer */);
+        boutons.add(push);  push.addActionListener(new pushOp());
+        boutons.add(add);   add.addActionListener(new addOp());
+        boutons.add(sub);   sub.addActionListener(new subOp());
+        boutons.add(mul);   mul.addActionListener(new mulOp());
+        boutons.add(div);   div.addActionListener(new divOp());
+        boutons.add(clear); clear.addActionListener(new clearOp());
         add(boutons);
         boutons.setBackground(Color.red);
         actualiserInterface();
     }
 
     public void actualiserInterface() {
-        // à compléter
+         if (pile.estPleine())
+            push.setEnabled(false);
+        else if (pile.estVide()){
+            push.setEnabled(true);
+            clear.setEnabled(false);
+            add.setEnabled(false);
+            sub.setEnabled(false);
+            mul.setEnabled(false);
+            div.setEnabled(false);
+        } else if (pile.taille() == 1){
+            push.setEnabled(true);
+            clear.setEnabled(true);
+            add.setEnabled(false);
+            sub.setEnabled(false);
+            mul.setEnabled(false);
+            div.setEnabled(false);
+        } else {
+            push.setEnabled(true);
+            clear.setEnabled(true);
+            add.setEnabled(true);
+            sub.setEnabled(true);
+            mul.setEnabled(true);
+            div.setEnabled(true);
+        }
     }
 
     private Integer operande() throws NumberFormatException {
         return Integer.parseInt(donnee.getText());
     }
 
-    // à compléter
-    // en cas d'exception comme division par zéro, 
-    // mauvais format de nombre suite à l'appel de la méthode operande
-    // la pile reste en l'état (intacte)
+    private class pushOp implements ActionListener {
+        public void actionPerformed (ActionEvent ae){
+            try {
+                pile.empiler(operande());
+            }
+            catch (NumberFormatException nfe){}
+            catch (PilePleineException pve){}
+
+    
+            actualiserInterface();
+        }
+    }
+
+    private class addOp implements ActionListener {
+        public void actionPerformed (ActionEvent ae){
+            int op1 = 0, op2 = 0, valeur = 0;
+
+            try {
+              
+                op1 = pile.depiler();
+                op2 = pile.depiler();
+
+
+                valeur = op2 + op1;
+                pile.empiler(valeur);
+            }
+            catch (PileVideException pve){}
+            catch (PilePleineException ppe){}
+
+            actualiserInterface();
+        }
+    }
+
+    private class subOp  implements ActionListener {
+        public void actionPerformed (ActionEvent ae){
+            int op1 = 0, op2 = 0, valeur = 0;
+
+            try {
+             
+                op1 = pile.depiler();
+                op2 = pile.depiler();
+
+               
+                valeur = op2 - op1;
+                pile.empiler(valeur);
+            }
+            catch (PileVideException pve){}
+            catch (PilePleineException ppe){}
+
+            actualiserInterface();
+        }
+    }
+
+    private class mulOp  implements ActionListener {
+        public void actionPerformed (ActionEvent ae){
+            int op1 = 0, op2 = 0, valeur = 0;
+
+            try {
+              
+                op1 = pile.depiler();
+                op2 = pile.depiler();
+
+                
+                valeur = op2 * op1;
+                pile.empiler(valeur);
+            }
+            catch (PileVideException pve){}
+            catch (PilePleineException ppe){}
+
+            actualiserInterface();
+        }
+    }
+
+    private class divOp  implements ActionListener {
+        public void actionPerformed (ActionEvent ae){
+            int op1 = 0, op2 = 0, valeur = 0;
+
+            try {
+                
+                op1 = pile.depiler();
+                op2 = pile.depiler();
+
+             
+                if (op1 == 0 ) {
+                    pile.empiler(op2);
+                    pile.empiler(op1);
+                }
+                else {
+                    valeur = op2 / op1;
+                    pile.empiler(valeur);
+                }
+            }
+            catch (PileVideException pve){}
+            catch (PilePleineException ppe){}
+
+           
+            actualiserInterface();
+        }
+    }
+
+    private class clearOp  implements ActionListener {
+        public void actionPerformed (ActionEvent ae){
+            while (!pile.estVide()){
+                try {
+                    pile.depiler();
+                }
+                catch (PileVideException pve){}
+            }
+
+           
+            actualiserInterface();
+        }
+    })
 
 }
